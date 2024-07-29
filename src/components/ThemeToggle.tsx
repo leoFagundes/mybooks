@@ -22,9 +22,24 @@ export const ThemeToggle = () => {
   }, [darkMode]);
 
   return (
-    <div className="rounded-md p-1.5 border border-mainBlack dark:border-mainWhite hover:cursor-pointer" onClick={() => setDarkMode(!darkMode)}>
-        <Image className="hidden dark:block" src={"moon.svg"} width={16} height={16} alt="moon" />
-        <Image className="dark:hidden" src={"sun.svg"} width={16} height={16} alt="sun" />
+    <div
+      className="rounded-md p-1.5 border border-mainBlack dark:border-mainWhite hover:cursor-pointer"
+      onClick={() => setDarkMode(!darkMode)}
+    >
+      <Image
+        className="hidden dark:block"
+        src={"moon.svg"}
+        width={16}
+        height={16}
+        alt="moon"
+      />
+      <Image
+        className="dark:hidden"
+        src={"sun.svg"}
+        width={16}
+        height={16}
+        alt="sun"
+      />
     </div>
   );
 };
