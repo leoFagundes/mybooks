@@ -18,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="pt-bt">
       <body
-        className={`${saira.className} bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen`}
+        className={`${saira.className} flex justify-center bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen`}
       >
-        <NavBar />
-        {children}
+        <div className="relative w-2/3 max-w-[1200px]">
+          <NavBar />
+          {children}
+        </div>
       </body>
     </html>
   );

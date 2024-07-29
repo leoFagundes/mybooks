@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export const ThemeToggle = () => {
@@ -20,5 +21,10 @@ export const ThemeToggle = () => {
     }
   }, [darkMode]);
 
-  return <div onClick={() => setDarkMode(!darkMode)}>Change darkmode</div>;
+  return (
+    <div className="rounded-md p-1.5 border border-mainBlack dark:border-mainWhite hover:cursor-pointer" onClick={() => setDarkMode(!darkMode)}>
+        <Image className="hidden dark:block" src={"moon.svg"} width={16} height={16} alt="moon" />
+        <Image className="dark:hidden" src={"sun.svg"} width={16} height={16} alt="sun" />
+    </div>
+  );
 };
