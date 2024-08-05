@@ -20,10 +20,10 @@ export default function RootLayout({
       <body
         className={`${saira.className} flex justify-center bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen`}
       >
-        <div className="relative w-2/3 max-w-[1200px]">
+        <header className="flex justify-center absolute w-full bg-transparent backdrop-blur-sm z-20">
           <NavBar />
-          {children}
-        </div>
+        </header>
+        <div className="w-[90%] sm:w-2/3 max-w-[1200px]">{children}</div>
       </body>
     </html>
   );
