@@ -45,7 +45,7 @@ export const Input = ({
         />
       )}
       {type === "file" && (
-        <div className="flex items-center justify-center w-56">
+        <div className="flex items-center justify-center w-[232px]">
           <label
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full border-2 border-gray-500 
