@@ -3,7 +3,7 @@
 import { Loader } from "@/components/Loader";
 import { Modal } from "@/components/Modal";
 import UserRepositorie from "@/services/repositories/UserRepositorie";
-import { BookProps, BookVolume, UserProps } from "@/types";
+import { BookProps, UserProps } from "@/types";
 import {
   ComponentProps,
   Dispatch,
@@ -116,6 +116,7 @@ export const BookCard = ({
           className={`card-back rounded shadow-light dark:shadow-dark absolute border border-mainBlack dark:border-mainWhite w-full h-full backface-hidden flex flex-col gap-2 p-6 transform rotate-y-180`}
         >
           <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            <h2 className="font-semibold">Descrição</h2>
             <div
               dangerouslySetInnerHTML={{
                 __html: book.description.replace(/-n/g, "<br />"),
