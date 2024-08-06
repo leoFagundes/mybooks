@@ -53,7 +53,8 @@ export const UsersDisplay = ({ users, params }: UsersDisplayPorps) => {
         <SearchInput />
         {!queryToken && (
           <h1 className="text-2xl">
-            <span className="font-semibold">filtro:</span> "{params.username}"
+            <span className="font-semibold">filtro:</span>{" "}
+            {`"${params.username}"`}
           </h1>
         )}
         <h1 className="text-2xl">{currentUser?.username}</h1>
