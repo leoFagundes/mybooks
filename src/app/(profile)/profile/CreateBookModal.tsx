@@ -58,6 +58,8 @@ export const CreateBookModal = ({
 
       const pdfLink = await UserRepositorie.createPdfLink(formData);
 
+      if (!pdfLink) return;
+
       const newBook = { ...book, id: generateRandomToken(), pdf: pdfLink };
 
       const existingBooks = user.books || [];
