@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Saira } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
+import { ConnectDB } from "@/components/ConnectDB";
 
 const saira = Saira({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body
         className={`${saira.className} flex justify-center bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen`}
       >
+        <ConnectDB />
         <header className="flex justify-center absolute w-full bg-transparent backdrop-blur-sm z-20">
           <NavBar />
         </header>

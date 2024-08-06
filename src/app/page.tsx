@@ -1,7 +1,6 @@
 import { BooksLogo } from "@/components/BooksLogo";
-import { Input } from "@/components/Input";
+import { ConnectDB } from "@/components/ConnectDB";
 import { SearchInput } from "@/components/SearchInput";
-import { MdManageSearch } from "react-icons/md";
 
 export default function Home() {
   return (
