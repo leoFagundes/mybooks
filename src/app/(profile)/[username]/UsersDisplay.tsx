@@ -80,7 +80,7 @@ export const UsersDisplay = ({ users, params }: UsersDisplayPorps) => {
       ) : (
         <div className="border border-mainBlack dark:border-mainWhite rounded-md flex justify-center items-center flex-1">
           <p className="text-lg">
-            Nenhum usuário encontrado para "{params.username}"
+            {`Nenhum usuário encontrado para "${params.username}"`}
           </p>
         </div>
       )}
