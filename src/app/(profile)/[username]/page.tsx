@@ -6,7 +6,11 @@ import UserRepositorie from "@/services/repositories/UserRepositorie";
 import { UsersDisplay } from "./UsersDisplay";
 import { Loader } from "@/components/Loader";
 
-export default function page({ params }: { params: { username: string } }) {
+export default function SearchPage({
+  params,
+}: {
+  params: { username: string };
+}) {
   const [users, setUsers] = useState<UserProps[] | undefined>();
   const [loading, setLoading] = useState(true);
 
