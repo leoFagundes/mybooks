@@ -47,7 +47,7 @@ export const BooksDisplay = ({
         </div>
       ) : (
         <div className="border border-mainBlack my-8 dark:border-mainWhite rounded-md flex justify-center items-center flex-1 p-4">
-          <p className="text-lg">Sem livros cadastrados</p>
+          <p className="text-lg">Nenhum livro encontrado</p>
         </div>
       )}
     </>

@@ -9,6 +9,7 @@ import UserRepositorie from "@/services/repositories/UserRepositorie";
 import { UserProps } from "@/types";
 import { Loader } from "@/components/Loader";
 import { CreateBookModal } from "./CreateBookModal";
+import { Input } from "@/components/Input";
 
 function generateRandomToken(length = 32) {
   return Array.from({ length }, () =>
@@ -20,6 +21,7 @@ export default function MyBookProfilePage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<UserProps | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -71,6 +73,11 @@ export default function MyBookProfilePage() {
     }
   }, [user, loading]);
 
+  const filteredBooks =
+    user?.books?.filter((book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
+
   return (
     <section className="flex flex-col h-screen py-14">
       {loading && <Loader />}
@@ -84,10 +91,23 @@ export default function MyBookProfilePage() {
                 className="hover:cursor-pointer"
                 size={"24px"}
               />
+              <div className="hidden sm:block">
+                <Input
+                  type="text"
+                  placeholder="Pesquisar livro..."
+                  value={searchTerm}
+                  setValue={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
             <ButtonLogout />
           </div>
-          <BooksDisplay user={user} setUser={setUser} isAuthenticated />
+
+          <BooksDisplay
+            user={{ ...user, books: filteredBooks }}
+            setUser={setUser}
+            isAuthenticated
+          />
         </>
       )}
       <CreateBookModal
