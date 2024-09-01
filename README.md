@@ -1,37 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">MyBooks</h1>
 
-## Getting Started
+## Descrição do Projeto
 
-First, run the development server:
+<p>Aplicação fullstack para que os usuários consigam ter um lugar para guardar sua coleção de livros de forma simples e minimalista!</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ <img style="border-radius: 50%;" src="https://github.com/leoFagundes.png" width="100px;" alt="profile-img"/>
+ <h3><b>Leonardo Fagundes</b></h3>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[![Linkedin Badge](https://img.shields.io/badge/-Leonardo%20Fagundes-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/leonardo-fagundes-5a348a248/)](https://www.linkedin.com/in/leonardo-fagundes-5a348a248/)
+[![Gmail Badge](https://img.shields.io/badge/-leofagundes2015@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:leofagundes2015@gmail.com)](mailto:leofagundes2015@gmail.com)
+[![Instagram Badge](https://img.shields.io/badge/-@leo.fagundes.50-E4405F?style=flat-square&labelColor=E4405F&logo=instagram&logoColor=white&link=https://www.instagram.com/leo.fagundes.50/)](https://www.instagram.com/leo.fagundes.50/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# mybooks
+<!-- - licença (https://blog.rocketseat.com.br/como-fazer-um-bom-readme) -->
