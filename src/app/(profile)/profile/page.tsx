@@ -83,7 +83,7 @@ export default function MyBookProfilePage() {
       {loading && <Loader />}
       {user && (
         <>
-          <div className="flex items-center justify-between gap-4 mt-16 ">
+          <div className="flex items-center justify-between gap-4 mt-16 py-4 ">
             <div className="flex items-center gap-4">
               <h1 className="text-2xl">{user ? user.username : "Anonymous"}</h1>
               <LuPlusSquare
