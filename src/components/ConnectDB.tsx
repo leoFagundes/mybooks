@@ -23,7 +23,7 @@ export const ConnectDB = () => {
 
   if (isLoading) {
     return (
-      <Loader message="Lamentamos pela demora. Como estamos hospedando o site de forma gratuita no momento, o carregamento inicial pode levar até 5 minutos..." />
+      <Loader message="Lamentamos pela demora. Como estamos hospedando o site de forma gratuita no momento, o carregamento inicial pode levar de 30 segundos a 2 minutos..." />
     );
   }
 
