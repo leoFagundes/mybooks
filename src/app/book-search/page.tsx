@@ -35,7 +35,7 @@ export default function MyBooksSearchPage() {
   }, [value]);
 
   return (
-    <section className="flex flex-col h-screen py-14 gap-4">
+    <section className="flex flex-col h-screen py-8 gap-4">
       <div className="flex items-center justify-center gap-4 mt-16 ">
         <Input
           value={value}

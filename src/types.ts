@@ -5,6 +5,7 @@ export interface BookProps {
   genres: string[];
   img: string;
   pdf?: string | File;
+  collection?: string;
   rate: string;
   authors: string[];
   link?: string;
@@ -16,6 +17,7 @@ export interface UserProps {
   email?: string;
   token?: string;
   books?: BookProps[];
+  profileImage?: string;
 }
 
 // Tipos da API do Google

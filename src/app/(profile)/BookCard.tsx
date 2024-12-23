@@ -53,6 +53,7 @@ export const BookCard = ({
     book.title,
     book.description,
     book.genres,
+    book.collection,
     book.pdf,
     book.rate,
     book.authors,
@@ -108,11 +109,11 @@ export const BookCard = ({
         >
           <div
             onClick={toggleFlip}
-            className={`card-front rounded-sm shadow-light dark:shadow-dark absolute w-full h-full backface-hidden hover:cursor-pointer`}
+            className={`card-front rounded-md shadow-light dark:shadow-dark absolute w-full h-full backface-hidden hover:cursor-pointer`}
           >
             {book.img ? (
               <img
-                className="h-full w-full bg-cover rounded-sm"
+                className="h-full w-full bg-cover rounded-md shadow-light"
                 src={book.img}
                 alt=""
               />
@@ -195,6 +196,12 @@ export const BookCard = ({
                 </>
               )}
             </div>
+            {book.collection && (
+              <div>
+                <h2 className="font-semibold">Coleção</h2>
+                <p className="text-sm">{book.collection}</p>
+              </div>
+            )}
             <div className="flex justify-end items-center gap-2">
               {isAuthenticated && !isPreviw && (
                 <>

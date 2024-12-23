@@ -1,5 +1,4 @@
 import { BooksLogo } from "@/components/BooksLogo";
-import { ConnectDB } from "@/components/ConnectDB";
 import { SearchInput } from "@/components/SearchInput";
 
 export default function Home() {

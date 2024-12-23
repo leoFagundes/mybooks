@@ -19,11 +19,14 @@ export default function SearchPage({
       try {
         const allUsers = await UserRepositorie.getUsers();
         const decodedUsername = decodeURIComponent(params.username);
-        const usersFound = allUsers.filter((user: UserProps) =>
-          user.username.toLowerCase().includes(decodedUsername.toLowerCase())
-        );
-
-        setUsers(usersFound);
+        if (decodedUsername === "allUsers") {
+          setUsers(allUsers);
+        } else {
+          const usersFound = allUsers.filter((user: UserProps) =>
+            user.username.toLowerCase().includes(decodedUsername.toLowerCase())
+          );
+          setUsers(usersFound);
+        }
       } catch (error) {
         console.error("Erro ao carregar a usuários:", error);
       } finally {

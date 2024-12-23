@@ -14,6 +14,7 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import UserRepositorie from "@/services/repositories/UserRepositorie";
 import { Loader } from "@/components/Loader";
+import { FiFile } from "react-icons/fi";
 
 interface EditBookModalProps {
   isOpen: boolean;
@@ -31,11 +32,16 @@ export const EditBookModal = ({
   bookByProps,
 }: EditBookModalProps) => {
   const [loading, setLoading] = useState(false);
+  const [booksCollections, setBooksCollections] = useState<string[]>([]);
+  const [newBookPdf, setNewBookPdf] = useState<{ pdf?: string | File }>({
+    pdf: undefined,
+  });
   const [book, setBook] = useState<BookProps>({
     id: "",
     title: "",
     description: "",
     genres: [],
+    collection: undefined,
     img: "",
     pdf: undefined,
     rate: "",
@@ -44,17 +50,67 @@ export const EditBookModal = ({
   });
 
   useEffect(() => {
+    async function fecthCollections() {
+      if (!user) return;
+
+      try {
+        const fetchedBooksCollections: string[] = [];
+        user.books?.forEach((book: BookProps) => {
+          const normalizedCollection = book.collection?.trim().toLowerCase();
+
+          if (
+            normalizedCollection &&
+            !fetchedBooksCollections.includes(normalizedCollection)
+          ) {
+            fetchedBooksCollections.push(normalizedCollection);
+          }
+        });
+
+        setBooksCollections(
+          fetchedBooksCollections
+            .map(
+              (collection) => collection[0].toUpperCase() + collection.slice(1)
+            )
+            .sort()
+        );
+      } catch (error) {
+        console.error("Erro ao carregar coleções");
+      }
+    }
+
+    fecthCollections();
     setBook(bookByProps);
   }, []);
 
   const editBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (
+      !book.img ||
+      !book.title ||
+      !book.description ||
+      book.genres.length === 0 ||
+      !book.rate ||
+      book.authors.length === 0
+    ) {
+      console.error("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
     setLoading(true);
     try {
       if (!user) return;
 
-      const updatedBook = { ...book };
+      let pdfLink = book.pdf;
+      if (newBookPdf.pdf) {
+        const formData = new FormData();
+        formData.append("pdf", newBookPdf.pdf as Blob);
+        formData.append("userName", user.username);
+
+        pdfLink = await UserRepositorie.createPdfLink(formData);
+      }
+
+      const updatedBook = { ...book, pdf: pdfLink };
 
       const existingBooks = user.books || [];
       const bookIndex = existingBooks.findIndex((b) => b.id === updatedBook.id);
@@ -67,11 +123,12 @@ export const EditBookModal = ({
           ...existingBooks.slice(bookIndex + 1),
         ];
 
-        // Atualiza o usuário com a nova lista de livros
         await UserRepositorie.updateUser(user._id!, {
           ...user,
           books: updatedBooks,
         });
+
+        setBook(updatedBook);
 
         setUser &&
           setUser({
@@ -88,7 +145,31 @@ export const EditBookModal = ({
     }
   };
 
+  const handleDeletePdf = async () => {
+    if (user && user._id && book.pdf) {
+      const parts = (book.pdf as string).split("/");
+      const pdfName = `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+
+      await UserRepositorie.deletePdf(pdfName);
+
+      const updatedBooks =
+        user.books?.map((b) => (b.id === book.id ? { ...b, pdf: "" } : b)) ||
+        [];
+
+      const updatedUser = {
+        ...user,
+        books: updatedBooks,
+      };
+
+      await UserRepositorie.updateUser(user._id, updatedUser);
+
+      setBook({ ...book, pdf: undefined });
+      setUser && setUser(updatedUser);
+    }
+  };
+
   const handleOnClose = () => {
+    setNewBookPdf({ pdf: undefined });
     onClose();
   };
 
@@ -140,6 +221,33 @@ export const EditBookModal = ({
                   }
                   placeholder="Gêneros ( separados por , )"
                 />
+                <Input
+                  value={book.collection || ""}
+                  setValue={(e) =>
+                    setBook({ ...book, collection: e.target.value })
+                  }
+                  placeholder="Coleção"
+                  options={booksCollections}
+                />
+                {book.pdf ? (
+                  <div
+                    onClick={handleDeletePdf}
+                    className="flex items-center gap-2 cursor-pointer hover:text-red-500 w-[232px]"
+                  >
+                    <FiFile className="min-w-[20px]" size={"20px"} />{" "}
+                    <span>excluir pdf de {book.title}...</span>
+                  </div>
+                ) : (
+                  <Input
+                    value={""}
+                    setValue={(e) =>
+                      setNewBookPdf({ ...book, pdf: e.target.files?.[0] })
+                    }
+                    placeholder="URL do PDF"
+                    name="pdf"
+                    type="file"
+                  />
+                )}
                 {/* <Input
                   value={book.link || ""}
                   setValue={(e) => setBook({ ...book, link: e.target.value })}

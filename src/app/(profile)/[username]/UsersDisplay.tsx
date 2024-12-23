@@ -42,7 +42,7 @@ export const UsersDisplay = ({ users, params }: UsersDisplayPorps) => {
 
   return (
     <>
-      <div className="flex items-center gap-4 mt-16">
+      <div className="flex items-center gap-4 mt-4">
         {queryToken && (
           <IoMdArrowBack
             onClick={() => handleClick("")}
@@ -66,7 +66,7 @@ export const UsersDisplay = ({ users, params }: UsersDisplayPorps) => {
               <UserCard
                 onClick={() => handleClick(user._id!)}
                 key={index}
-                username={user.username}
+                user={user}
               />
             ))
           ) : (

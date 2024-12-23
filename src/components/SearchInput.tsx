@@ -10,7 +10,11 @@ export const SearchInput = () => {
   const router = useRouter();
 
   const handleSearch = () => {
-    router.push(`/${value}`);
+    if (value === "") {
+      router.push(`/allUsers`);
+    } else {
+      router.push(`/${value}`);
+    }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

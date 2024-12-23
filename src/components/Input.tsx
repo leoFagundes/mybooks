@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, ComponentProps, ReactNode, useState } from "react";
+import { FiX } from "react-icons/fi";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 interface InputProps extends ComponentProps<"input"> {
@@ -9,6 +10,7 @@ interface InputProps extends ComponentProps<"input"> {
   placeholder: string;
   icon?: ReactNode | undefined;
   type?: string;
+  options?: string[];
 }
 
 export const Input = ({
@@ -17,9 +19,11 @@ export const Input = ({
   setValue,
   icon,
   type = "text",
+  options,
   ...props
 }: InputProps) => {
   const [fileName, setFileName] = useState<string | null>(null);
+  const [isBoxOpen, setIsBoxOpen] = useState(false);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e);
@@ -30,19 +34,36 @@ export const Input = ({
     }
   };
 
+  const filteredOptions = options?.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase())
+  );
+
   return (
     <div className="flex items-center relative w-fit">
       {type !== "file" && (
-        <input
-          {...props}
-          value={value}
-          onChange={setValue}
-          className={
-            "bg-transparent w-[232px] rounded-md border border-mainBlack dark:border-mainWhite py-2 px-3 focus:outline-none shadow-sm focus:shadow-md"
-          }
-          type={type}
-          placeholder={placeholder}
-        />
+        <>
+          <input
+            {...props}
+            value={value}
+            onFocus={() => setIsBoxOpen(true)}
+            onBlur={() => {
+              setTimeout(() => {
+                setIsBoxOpen(false);
+              }, 100);
+            }}
+            onChange={setValue}
+            className={
+              "bg-transparent w-[232px] rounded-md border border-mainBlack dark:border-mainWhite py-2 px-3 focus:outline-none shadow-sm focus:shadow-md"
+            }
+            type={type}
+            placeholder={placeholder}
+          />
+          {value && (
+            <span className="absolute -top-2 left-2 text-xs font-medium px-2 bg-mainWhite">
+              {placeholder}
+            </span>
+          )}
+        </>
       )}
       {type === "file" && (
         <div className="flex items-center justify-center w-[232px]">
@@ -78,6 +99,37 @@ export const Input = ({
       <div className="absolute right-3 hover:cursor-pointer">
         {icon && icon}
       </div>
+      {filteredOptions && filteredOptions.length > 0 && isBoxOpen && (
+        <div className="flex flex-col gap-1 w-full absolute dark:bg-mainBlack bg-mainWhite top-full p-2 min-h-12 max-h-[200px] overflow-y-auto z-30 border dark:border-mainWhite border-mainBlack border-t-mainWhite dark:border-t-mainBlack rounded-br-md rounded-bl-md shadow-light">
+          {filteredOptions?.map((option, index) => (
+            <p
+              className="cursor-pointer w-[90%] hover:bg-mainBlack hover:text-mainWhite dark:hover:text-mainBlack dark:hover:bg-mainWhite px-2 py-1 rounded-sm hover:shadow-light dark:hover:shadow-dark"
+              key={index}
+              onClick={() => {
+                setValue({
+                  target: { value: option },
+                } as React.ChangeEvent<HTMLInputElement>);
+                setIsBoxOpen(false);
+              }}
+            >
+              {option}
+            </p>
+          ))}
+          <FiX
+            className="absolute top-2 right-2 w-5 h-5 cursor-pointer bg-mainWhite dark:bg-mainBlack rounded-md"
+            onClick={() => setIsBoxOpen(false)}
+          />
+        </div>
+      )}
+      {/* <p
+        onClick={() =>
+          setValue({
+            target: { value: "aaaaaaa" },
+          } as React.ChangeEvent<HTMLInputElement>)
+        }
+      >
+        teste
+      </p> */}
     </div>
   );
 };

@@ -5,7 +5,6 @@ import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import SpotifyProvider from "next-auth/providers/spotify";
 import TwitchProvider from "next-auth/providers/twitch";
-import UserRepositorie from "@/services/repositories/UserRepositorie";
 
 const handler = NextAuth({
   providers: [

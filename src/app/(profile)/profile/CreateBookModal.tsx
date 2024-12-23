@@ -14,6 +14,8 @@ interface CreateBookModalProps {
   onClose: VoidFunction;
   user: UserProps | null;
   setUser: Dispatch<SetStateAction<UserProps | null>>;
+  booksCollections?: string[];
+  booksGenres?: string[];
 }
 
 function generateRandomToken(length = 32) {
@@ -27,6 +29,8 @@ export const CreateBookModal = ({
   onClose,
   user,
   setUser,
+  booksCollections,
+  booksGenres,
 }: CreateBookModalProps) => {
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState<BookProps>({
@@ -34,6 +38,7 @@ export const CreateBookModal = ({
     title: "",
     description: "",
     genres: [],
+    collection: undefined,
     img: "",
     pdf: undefined,
     rate: "",
@@ -43,6 +48,18 @@ export const CreateBookModal = ({
 
   const createBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (
+      !book.img ||
+      !book.title ||
+      !book.description ||
+      book.genres.length === 0 ||
+      !book.rate ||
+      book.authors.length === 0
+    ) {
+      console.error("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -86,6 +103,7 @@ export const CreateBookModal = ({
       id: "",
       title: "",
       description: "",
+      collection: "",
       genres: [],
       img: "",
       pdf: undefined,
@@ -103,7 +121,7 @@ export const CreateBookModal = ({
           <div className="flex flex-col items-center gap-8 bg-mainWhite dark:bg-mainBlack border shadow-light dark:shadow-dark rounded-md border-mainBlack dark:border-mainWhite p-8 w-[800px] max-w-[90%] max-h-[90%] relative">
             {loading && <Loader />}
             <h2 className="text-xl font-semibold">Cadastrar novo livro</h2>
-            <div className="flex gap-8 overflow-y-scroll w-full">
+            <div className="flex gap-8 overflow-y-scroll w-full py-2">
               <form
                 onSubmit={createBook}
                 className="flex flex-col items-center gap-3 w-full sm:w-1/2"
@@ -143,6 +161,15 @@ export const CreateBookModal = ({
                     setBook({ ...book, genres: e.target.value.split(",") })
                   }
                   placeholder="Gêneros ( separados por , )"
+                  options={booksGenres}
+                />
+                <Input
+                  value={book.collection || ""}
+                  setValue={(e) =>
+                    setBook({ ...book, collection: e.target.value })
+                  }
+                  placeholder="Coleção"
+                  options={booksCollections}
                 />
                 {/* <Input
                   value={book.link || ""}
