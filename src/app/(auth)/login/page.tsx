@@ -52,7 +52,9 @@ export default function LoginPage() {
             alertDisplayTime={5000}
           />
         )}
-        <h1 className="flex justify-center text-2xl">Entre com</h1>
+        <h1 className="flex justify-center text-2xl font-semibold">
+          Entre com
+        </h1>
 
         <div className="flex justify-center flex-wrap gap-4">
           <Button

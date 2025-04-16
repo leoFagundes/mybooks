@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BsMoonStars, BsSun } from "react-icons/bs";
+import Tooltip from "./Tooltip";
 
 export const ThemeToggle = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,24 +23,27 @@ export const ThemeToggle = () => {
   }, [darkMode]);
 
   return (
-    <div
-      className="rounded-md p-1.5 border border-mainBlack dark:border-mainWhite hover:cursor-pointer"
-      onClick={() => setDarkMode(!darkMode)}
+    <Tooltip
+      content={darkMode ? "Ativar tema claro" : "Ativar tema escuro"}
+      direction="bottom"
     >
-      <Image
-        className="hidden dark:block"
-        src={"moon.svg"}
-        width={16}
-        height={16}
-        alt="moon"
-      />
-      <Image
-        className="dark:hidden"
-        src={"sun.svg"}
-        width={16}
-        height={16}
-        alt="sun"
-      />
-    </div>
+      <div
+        className="flex justify-between w-[90px] border gap-1 rounded-md p-1.5 border-mainBlack dark:border-mainWhite hover:cursor-pointer shadow-md"
+        onClick={() => setDarkMode(!darkMode)}
+      >
+        <div
+          className={`flex justify-center items-center border border-transparent transition-all ease-in duration-100 bg-mainBlack rounded px-2 p-1`}
+        >
+          <BsSun className={`text-mainWhite`} />
+        </div>
+        <div
+          className={`flex justify-center border border-transparent transition-all ease-in duration-100 items-center bg-mainBlack rounded p-1 px-2 ${
+            !darkMode ? "bg-transparent" : "bg-mainWhite"
+          }`}
+        >
+          <BsMoonStars className={`text-mainBlack`} />
+        </div>
+      </div>
+    </Tooltip>
   );
 };

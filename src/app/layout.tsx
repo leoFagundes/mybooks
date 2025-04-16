@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="pt-bt">
       <body
-        className={`${saira.className} flex justify-center bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen`}
+        className={`${saira.className} flex justify-center bg-mainWhite text-mainBlack dark:bg-mainBlack dark:text-mainWhite w-full min-h-screen transition-all ease-in duration-100`}
       >
         <ConnectDB />
         <header className="flex justify-center absolute w-full bg-transparent backdrop-blur-sm z-20">

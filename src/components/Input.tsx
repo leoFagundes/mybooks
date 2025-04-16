@@ -3,6 +3,7 @@
 import { ChangeEvent, ComponentProps, ReactNode, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import Tooltip from "./Tooltip";
 
 interface InputProps extends ComponentProps<"input"> {
   value: string;
@@ -11,6 +12,7 @@ interface InputProps extends ComponentProps<"input"> {
   icon?: ReactNode | undefined;
   type?: string;
   options?: string[];
+  tooltipIconMessage?: string;
 }
 
 export const Input = ({
@@ -20,6 +22,7 @@ export const Input = ({
   icon,
   type = "text",
   options,
+  tooltipIconMessage,
   ...props
 }: InputProps) => {
   const [fileName, setFileName] = useState<string | null>(null);
@@ -52,14 +55,14 @@ export const Input = ({
               }, 100);
             }}
             onChange={setValue}
-            className={
-              "bg-transparent w-[232px] rounded-md border border-mainBlack dark:border-mainWhite py-2 px-3 focus:outline-none shadow-sm focus:shadow-md"
-            }
+            className={`bg-transparent w-[232px] rounded-md border border-mainBlack dark:border-mainWhite ${
+              icon && "border-r-0"
+            } py-2 px-3 focus:outline-none shadow-md`}
             type={type}
             placeholder={placeholder}
           />
           {value && (
-            <span className="absolute -top-2 left-2 text-xs font-medium px-2 bg-mainWhite">
+            <span className="absolute -top-2 left-2 text-xs font-medium px-2 bg-mainWhite dark:bg-mainBlack transition-all ease-in duration-100">
               {placeholder}
             </span>
           )}
@@ -96,9 +99,25 @@ export const Input = ({
           </label>
         </div>
       )}
-      <div className="absolute right-3 hover:cursor-pointer">
-        {icon && icon}
-      </div>
+      {icon && (
+        <>
+          {tooltipIconMessage ? (
+            <Tooltip content={tooltipIconMessage ?? ""} direction="bottom">
+              <div
+                className={`hover:cursor-pointer py-2 px-3 border border-mainBlack dark:border-mainWhite rounded-md shadow-md border-l-0`}
+              >
+                {icon}
+              </div>
+            </Tooltip>
+          ) : (
+            <div
+              className={`hover:cursor-pointer py-2 px-3 border border-mainBlack dark:border-mainWhite rounded-md shadow-md border-l-0`}
+            >
+              {icon}
+            </div>
+          )}
+        </>
+      )}
       {filteredOptions && filteredOptions.length > 0 && isBoxOpen && (
         <div className="flex flex-col gap-1 w-full absolute dark:bg-mainBlack bg-mainWhite top-full p-2 min-h-12 max-h-[200px] overflow-y-auto z-30 border dark:border-mainWhite border-mainBlack border-t-mainWhite dark:border-t-mainBlack rounded-br-md rounded-bl-md shadow-light">
           {filteredOptions?.map((option, index) => (
@@ -121,15 +140,6 @@ export const Input = ({
           />
         </div>
       )}
-      {/* <p
-        onClick={() =>
-          setValue({
-            target: { value: "aaaaaaa" },
-          } as React.ChangeEvent<HTMLInputElement>)
-        }
-      >
-        teste
-      </p> */}
     </div>
   );
 };

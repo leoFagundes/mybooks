@@ -29,6 +29,7 @@ export const BooksLogo = () => {
           className="fill-mainBlack dark:fill-mainWhite"
           d="M85.3685 202.076L44.6853 191.905C30.8051 193.819 26.9362 204.269 26.7368 209.255V246.349L46.4801 224.212L68.0183 257.118V223.016C68.0183 211.648 78.7873 203.472 85.3685 202.076Z"
         />
+
         <path
           id="tape1"
           onClick={() => {

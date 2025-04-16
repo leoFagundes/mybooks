@@ -12,6 +12,7 @@ import { CreateBookModal } from "./CreateBookModal";
 import { Input } from "@/components/Input";
 import Image from "next/image";
 import { FiCheck, FiChevronDown, FiChevronUp, FiCopy } from "react-icons/fi";
+import Tooltip from "@/components/Tooltip";
 
 function generateRandomToken(length = 32) {
   return Array.from({ length }, () =>
@@ -168,22 +169,28 @@ export default function MyBookProfilePage() {
                 </>
               )}
               <h1 className="text-2xl">{user ? user.username : "Anonymous"}</h1>
-              <LuPlusSquare
-                onClick={() => setIsOpen(true)}
-                className="hover:cursor-pointer min-w-6"
-                size={"20px"}
-              />
-              {isCopied ? (
-                <FiCheck
-                  size={"24px"}
+              <Tooltip content="Adicionar novo livro" direction="bottom">
+                <LuPlusSquare
+                  onClick={() => setIsOpen(true)}
                   className="hover:cursor-pointer min-w-6"
-                />
-              ) : (
-                <FiCopy
-                  className="hover:cursor-pointer min-w-6"
-                  onClick={handleCopy}
                   size={"20px"}
                 />
+              </Tooltip>
+              {isCopied ? (
+                <Tooltip content="Link copiado" direction="bottom">
+                  <FiCheck
+                    size={"24px"}
+                    className="hover:cursor-pointer min-w-6"
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip content="Copiar link do meu perfil" direction="bottom">
+                  <FiCopy
+                    className="hover:cursor-pointer min-w-6"
+                    onClick={handleCopy}
+                    size={"20px"}
+                  />
+                </Tooltip>
               )}
             </div>
             <ButtonLogout />

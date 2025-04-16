@@ -16,6 +16,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { PiDeviceRotateFill } from "react-icons/pi";
 import { EditBookModal } from "./profile/EditBookModal";
+import Tooltip from "@/components/Tooltip";
 
 interface BookCardProps extends ComponentProps<"div"> {
   book: BookProps;
@@ -205,31 +206,45 @@ export const BookCard = ({
             <div className="flex justify-end items-center gap-2">
               {isAuthenticated && !isPreviw && (
                 <>
-                  <CiEdit
-                    onClick={() => setIsEditModalOpen(true)}
-                    className="hover:cursor-pointer hover:text-gray-500 transition-colors duration-300"
-                    size={"20px"}
-                  />
-                  <FaRegTrashAlt
-                    onClick={handleDeleteBook}
-                    className="hover:cursor-pointer hover:text-red-500 transition-colors duration-300"
-                    size={"20px"}
-                  />
+                  <Tooltip
+                    content={`Editar "${book.title.slice(0, 12)}..."`}
+                    direction="top"
+                  >
+                    <CiEdit
+                      onClick={() => setIsEditModalOpen(true)}
+                      className="hover:cursor-pointer hover:text-gray-500 transition-colors duration-300"
+                      size={"20px"}
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    content={`Excluir "${book.title.slice(0, 12)}..."`}
+                    direction="top"
+                  >
+                    <FaRegTrashAlt
+                      onClick={handleDeleteBook}
+                      className="hover:cursor-pointer hover:text-red-500 transition-colors duration-300"
+                      size={"20px"}
+                    />
+                  </Tooltip>
                 </>
               )}
               {isAuthenticated && book.pdf && (
-                <a href={book.pdf as string} target="_blank">
-                  <FaRegFilePdf
-                    className="hover:cursor-pointer"
-                    size={"20px"}
-                  />
-                </a>
+                <Tooltip content="Abrir PDF" direction="top">
+                  <a href={book.pdf as string} target="_blank">
+                    <FaRegFilePdf
+                      className="hover:cursor-pointer"
+                      size={"20px"}
+                    />
+                  </a>
+                </Tooltip>
               )}
-              <PiDeviceRotateFill
-                onClick={toggleFlip}
-                className="hover:cursor-pointer"
-                size={"20px"}
-              />
+              <Tooltip content="Virar" direction="top">
+                <PiDeviceRotateFill
+                  onClick={toggleFlip}
+                  className="hover:cursor-pointer"
+                  size={"20px"}
+                />
+              </Tooltip>
             </div>
           </div>
         </div>

@@ -20,7 +20,7 @@ export default function Home() {
         <BooksLogo />
       </div>
       <div className="absolute bottom-0 w-full flex justify-center py-3">
-        <p className="text-sm italic">
+        <p className="text-sm italic pointer-events-none user-select-none">
           Observação: Todos os PDFs são exclusivamente visíveis para seus
           respectivos proprietários.
         </p>

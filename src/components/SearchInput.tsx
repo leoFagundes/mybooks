@@ -30,6 +30,9 @@ export const SearchInput = () => {
       placeholder="ex: Leonardo Fagundes"
       icon={<MdManageSearch onClick={handleSearch} size={"24px"} />}
       onKeyPress={handleKeyPress}
+      tooltipIconMessage={`Pesquisar por ${
+        value ? value : "todos os usuários"
+      }`}
     />
   );
 };

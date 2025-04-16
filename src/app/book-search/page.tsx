@@ -42,6 +42,7 @@ export default function MyBooksSearchPage() {
           setValue={(e) => setValue(e.target.value)}
           placeholder="ex: Verity"
           icon={<MdManageSearch size={"24px"} />}
+          tooltipIconMessage={value ? `Pesquisar por ${value}` : ""}
         />
       </div>
       <div className="flex flex-wrap justify-center overflow-y-scroll items-center gap-4 py-4 h-full">
