@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export const Loader = ({
-  message = "Isso pode demorar um pouco na primeira vez...",
+  message = "Isso pode demorar alguns segundos...",
 }) => {
   const [showText, setShowText] = useState(false);
 

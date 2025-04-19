@@ -28,7 +28,7 @@ export const ThemeToggle = () => {
       direction="bottom"
     >
       <div
-        className="flex justify-between w-[90px] border gap-1 rounded-md p-1.5 border-mainBlack dark:border-mainWhite hover:cursor-pointer shadow-md"
+        className="flex justify-between w-[90px] scale-95 border gap-1 rounded-md p-1.5 border-mainBlack dark:border-mainWhite hover:cursor-pointer shadow-md"
         onClick={() => setDarkMode(!darkMode)}
       >
         <div

@@ -3,6 +3,7 @@ import { Saira } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/NavBar";
 import { ConnectDB } from "@/components/ConnectDB";
+import TooltipConfig from "@/components/TooltipConfig";
 
 const saira = Saira({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <NavBar />
         </header>
         <div className="w-[90%] sm:w-2/3 max-w-[1200px]">{children}</div>
+        <TooltipConfig />
       </body>
     </html>
   );

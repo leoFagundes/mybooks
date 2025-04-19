@@ -13,7 +13,7 @@ export const UserCard = ({ user, ...props }: UserCardProps) => {
   return (
     <div
       {...props}
-      className="hover:cursor-pointer shadow-light dark:shadow-dark border border-mainBlack dark:border-mainWhite hover:font-semibold duration-100 rounded-md flex justify-between items-center w-full p-4"
+      className="group hover:cursor-pointer hover:scale-[99%] shadow-light dark:shadow-dark border border-mainBlack dark:border-mainWhite hover:font-medium transition-all duration-100 rounded-md flex justify-between items-center w-full p-4 hover:border-dotted hover:shadow-inner"
     >
       <div className="flex items-center gap-2">
         {user.profileImage ? (

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import clsx from "clsx";
 
 type TooltipProps = {
@@ -14,6 +14,15 @@ export default function Tooltip({
   content,
   direction = "top",
 }: TooltipProps) {
+  const [tooltipState, setTooltipState] = useState<string | null>("true");
+
+  useEffect(() => {
+    const storedState = localStorage.getItem("tooltipState");
+    if (storedState) {
+      setTooltipState(storedState);
+    }
+  });
+
   const tooltipPosition = {
     top: "bottom-full left-1/2 -translate-x-1/2 mb-3",
     bottom: "top-full left-1/2 -translate-x-1/2 mt-3",
@@ -32,20 +41,22 @@ export default function Tooltip({
     <div className={`relative group flex items-center justify-center `}>
       {children}
 
-      <div
-        className={clsx(
-          "absolute hidden group-hover:flex bg-mainBlack dark:bg-mainWhite dark:text-mainBlack text-mainWhite text-sm px-3 py-1 rounded-md whitespace-nowrap transition-all animate-shade-in z-10",
-          tooltipPosition[direction]
-        )}
-      >
-        {content}
+      {tooltipState !== "false" && (
         <div
           className={clsx(
-            "absolute w-2 h-2 rotate-45 bg-mainBlack dark:bg-mainWhite",
-            arrowPosition[direction]
+            "absolute hidden group-hover:flex bg-mainBlack dark:bg-mainWhite dark:text-mainBlack text-mainWhite text-sm px-3 py-1 rounded-md whitespace-nowrap transition-all animate-shade-in z-10",
+            tooltipPosition[direction]
           )}
-        />
-      </div>
+        >
+          {content}
+          <div
+            className={clsx(
+              "absolute w-2 h-2 rotate-45 bg-mainBlack dark:bg-mainWhite",
+              arrowPosition[direction]
+            )}
+          />
+        </div>
+      )}
     </div>
   );
 }

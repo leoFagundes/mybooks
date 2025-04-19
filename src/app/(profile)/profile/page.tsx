@@ -11,8 +11,10 @@ import { Loader } from "@/components/Loader";
 import { CreateBookModal } from "./CreateBookModal";
 import { Input } from "@/components/Input";
 import Image from "next/image";
-import { FiCheck, FiChevronDown, FiChevronUp, FiCopy } from "react-icons/fi";
+import { FiCheck, FiCopy, FiFilter, FiX } from "react-icons/fi";
 import Tooltip from "@/components/Tooltip";
+import { Modal } from "@/components/Modal";
+import { Button } from "@/components/Button";
 
 function generateRandomToken(length = 32) {
   return Array.from({ length }, () =>
@@ -26,11 +28,15 @@ export default function MyBookProfilePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [genreSearchTerm, setGenreSearchTerm] = useState("");
+  const [authorSearchTerm, setAuthorSearchTerm] = useState("");
   const [collectionSearchTerm, setCollectionSearchTerm] = useState("");
   const [booksGenres, setBooksGenres] = useState<string[]>([]);
+  const [booksAuthors, setBooksAuthors] = useState<string[]>([]);
   const [booksCollections, setBooksCollections] = useState<string[]>([]);
-  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isFilterByRate, setIsFilterByRate] = useState(false);
+  const [isFilterByTitle, setIsFilterByTitle] = useState(true);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -65,6 +71,16 @@ export default function MyBookProfilePage() {
             })
           );
 
+          const fetchedBooksAuthors: string[] = [];
+          existingUser.books?.forEach((book: BookProps) =>
+            book.authors.forEach((author) => {
+              const normalizedAuthor = author.trim().toLowerCase();
+              if (!fetchedBooksAuthors.includes(normalizedAuthor)) {
+                fetchedBooksAuthors.push(normalizedAuthor);
+              }
+            })
+          );
+
           const fetchedBooksCollections: string[] = [];
           existingUser.books?.forEach((book: BookProps) => {
             const normalizedCollection = book.collection?.trim().toLowerCase();
@@ -90,7 +106,14 @@ export default function MyBookProfilePage() {
               .map((genre) => genre[0].toUpperCase() + genre.slice(1))
               .sort()
           );
+          setBooksAuthors(
+            fetchedBooksAuthors
+              .map((author) => author[0].toUpperCase() + author.slice(1))
+              .sort()
+          );
           setUser(existingUser);
+          existingUser._id && localStorage.setItem("userId", existingUser._id);
+
           return;
         } else {
           const newUser: UserProps = {
@@ -134,8 +157,24 @@ export default function MyBookProfilePage() {
         (!collectionSearchTerm || // Se não há filtro de coleção, inclui todos
           book.collection
             ?.toLowerCase()
-            .includes(collectionSearchTerm.toLowerCase()))
+            .includes(collectionSearchTerm.toLowerCase())) &&
+        book.authors.some((author) =>
+          author.toLowerCase().includes(authorSearchTerm.toLowerCase())
+        )
     ) || [];
+
+  const filteredBooksByRate = [...filteredBooks].sort(
+    (a, b) => Number(b.rate) - Number(a.rate)
+  );
+  const filteredBooksByTitle = [...filteredBooks].sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+
+  const booksToDisplay = isFilterByRate
+    ? filteredBooksByRate
+    : isFilterByTitle
+    ? filteredBooksByTitle
+    : filteredBooks;
 
   const handleCopy = () => {
     if (!user) return;
@@ -149,6 +188,15 @@ export default function MyBookProfilePage() {
         }, 2000);
       });
   };
+
+  function cleanFilters() {
+    setIsFilterByRate(false);
+    setIsFilterByTitle(true);
+    setCollectionSearchTerm("");
+    setAuthorSearchTerm("");
+    setGenreSearchTerm("");
+    setSearchTerm("");
+  }
 
   return (
     <section className="flex flex-col h-screen py-14">
@@ -195,45 +243,109 @@ export default function MyBookProfilePage() {
             </div>
             <ButtonLogout />
           </div>
-          <div className="flex flex-col items-center justify-between gap-4 py-2 sm:border-none rounded-md sm:shadow-none shadow-light mb-2">
-            <span
-              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-              className="sm:hidden flex items-center gap-1 cursor-pointer select-none font-semibold text-lg"
-            >
-              Filtros {isFiltersOpen ? <FiChevronUp /> : <FiChevronDown />}
-            </span>
-            {isFiltersOpen && (
-              <div className="flex items-center flex-wrap gap-4 justify-center w-full">
-                <Input
-                  type="text"
-                  placeholder="Pesquisar livro..."
-                  value={searchTerm}
-                  setValue={(e) => setSearchTerm(e.target.value)}
+          <div className="flex flex-col items-center justify-between gap-4 py-2 border-none rounded-mdshadow-none  mb-2">
+            <div className="relative flex items-center flex-wrap gap-4 justify-center w-full">
+              <Input
+                type="text"
+                placeholder="Pesquisar livro..."
+                value={searchTerm}
+                setValue={(e) => setSearchTerm(e.target.value)}
+              />
+              <Tooltip content="Ativar filtros" direction="bottom">
+                <FiFilter
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => setIsFilterModalOpen(true)}
                 />
-                {booksGenres.length > 0 && (
+              </Tooltip>
+              <Modal
+                isOpen={isFilterModalOpen}
+                onClose={() => setIsFilterModalOpen(false)}
+                classname="h-auto max-h-[600px] !w-[400px] gap-4 absolute"
+              >
+                <h2 className="font-semibold text-2xl">Filtros</h2>
+                <div className="flex flex-col p-2 gap-4 flex-1">
                   <Input
                     type="text"
-                    placeholder="Gênero"
-                    value={genreSearchTerm}
-                    setValue={(e) => setGenreSearchTerm(e.target.value)}
-                    options={booksGenres}
+                    placeholder="Pesquisar livro..."
+                    value={searchTerm}
+                    setValue={(e) => setSearchTerm(e.target.value)}
                   />
-                )}
-                {booksCollections.length > 0 && (
-                  <Input
-                    type="text"
-                    placeholder="Coleção"
-                    value={collectionSearchTerm}
-                    setValue={(e) => setCollectionSearchTerm(e.target.value)}
-                    options={booksCollections}
-                  />
-                )}
-              </div>
-            )}
+                  {booksGenres.length > 0 && (
+                    <Input
+                      type="text"
+                      placeholder="Gênero"
+                      value={genreSearchTerm}
+                      setValue={(e) => setGenreSearchTerm(e.target.value)}
+                      options={booksGenres}
+                    />
+                  )}
+                  {booksCollections.length > 0 && (
+                    <Input
+                      type="text"
+                      placeholder="Coleção"
+                      value={collectionSearchTerm}
+                      setValue={(e) => setCollectionSearchTerm(e.target.value)}
+                      options={booksCollections}
+                    />
+                  )}
+                  {booksAuthors.length > 0 && (
+                    <Input
+                      type="text"
+                      placeholder="Autor"
+                      value={authorSearchTerm}
+                      setValue={(e) => setAuthorSearchTerm(e.target.value)}
+                      options={booksAuthors}
+                    />
+                  )}
+                  <span
+                    onClick={() => {
+                      if (!isFilterByTitle) {
+                        setIsFilterByTitle(true); // Ativa o filtro por título
+                        setIsFilterByRate(false); // Desativa o filtro por nota
+                      }
+                    }}
+                    className={`p-2 ${
+                      isFilterByTitle
+                        ? "font-normal border-mainBlack dark:border-mainWhite"
+                        : "font-extralight"
+                    } border-dashed cursor-pointer border rounded text-sm flex items-center justify-between`}
+                  >
+                    Filtrar por título {isFilterByTitle ? <FiCheck /> : <FiX />}
+                  </span>
+                  <span
+                    onClick={() => {
+                      if (!isFilterByRate) {
+                        setIsFilterByRate(true); // Ativa o filtro por nota
+                        setIsFilterByTitle(false); // Desativa o filtro por título
+                      }
+                    }}
+                    className={`p-2 ${
+                      isFilterByRate
+                        ? "font-normal border-mainBlack dark:border-mainWhite"
+                        : "font-extralight"
+                    } border-dashed cursor-pointer border rounded text-sm flex items-center justify-between`}
+                  >
+                    Filtrar por maior nota pessoal{" "}
+                    {isFilterByRate ? <FiCheck /> : <FiX />}
+                  </span>
+                </div>
+                <div className="flex gap-2 flex-wrap items-center justify-center">
+                  <Button onClick={cleanFilters} onlyStroke>
+                    Limpar Filtros
+                  </Button>
+                  <Button onClick={() => setIsFilterModalOpen(false)}>
+                    Aplicar Filtros
+                  </Button>
+                </div>
+              </Modal>
+            </div>
           </div>
 
           <BooksDisplay
-            user={{ ...user, books: filteredBooks }}
+            user={{
+              ...user,
+              books: booksToDisplay,
+            }}
             setUser={setUser}
             isAuthenticated
           />

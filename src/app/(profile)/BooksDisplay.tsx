@@ -22,10 +22,7 @@ export const BooksDisplay = ({
       try {
         if (!user._id) return;
         const books = user.books;
-        const sortedBooks = books?.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        );
-        setBooks(sortedBooks);
+        setBooks(books);
       } catch (error) {
         console.log(error);
       }
