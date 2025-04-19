@@ -14,14 +14,24 @@ export default function Tooltip({
   content,
   direction = "top",
 }: TooltipProps) {
-  const [tooltipState, setTooltipState] = useState<string | null>("true");
+  const [tooltipState, setTooltipState] = useState(() => {
+    return localStorage.getItem("tooltipState") || "true";
+  });
 
   useEffect(() => {
-    const storedState = localStorage.getItem("tooltipState");
-    if (storedState) {
-      setTooltipState(storedState);
+    try {
+      const interval = setInterval(() => {
+        const storedState = localStorage.getItem("tooltipState");
+        if (storedState !== tooltipState) {
+          setTooltipState(storedState || "true");
+        }
+      }, 300);
+
+      return () => clearInterval(interval);
+    } catch (error) {
+      console.log("Erro ao obter tooltipstate");
     }
-  });
+  }, [tooltipState]);
 
   const tooltipPosition = {
     top: "bottom-full left-1/2 -translate-x-1/2 mb-3",
@@ -38,7 +48,7 @@ export default function Tooltip({
   };
 
   return (
-    <div className={`relative group flex items-center justify-center `}>
+    <div className="relative group flex items-center justify-center">
       {children}
 
       {tooltipState !== "false" && (

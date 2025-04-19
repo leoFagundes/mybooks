@@ -250,17 +250,19 @@ export default function MyBookProfilePage() {
                 placeholder="Pesquisar livro..."
                 value={searchTerm}
                 setValue={(e) => setSearchTerm(e.target.value)}
+                icon={
+                  <Tooltip content="Ativar filtros" direction="bottom">
+                    <FiFilter
+                      className="h-6 w-6 cursor-pointer"
+                      onClick={() => setIsFilterModalOpen(true)}
+                    />
+                  </Tooltip>
+                }
               />
-              <Tooltip content="Ativar filtros" direction="bottom">
-                <FiFilter
-                  className="h-6 w-6 cursor-pointer"
-                  onClick={() => setIsFilterModalOpen(true)}
-                />
-              </Tooltip>
               <Modal
                 isOpen={isFilterModalOpen}
                 onClose={() => setIsFilterModalOpen(false)}
-                classname="h-auto max-h-[600px] !w-[400px] gap-4 absolute"
+                classname="h-auto !max-h-[600px] !w-[400px] gap-4 absolute"
               >
                 <h2 className="font-semibold text-2xl">Filtros</h2>
                 <div className="flex flex-col p-2 gap-4 flex-1">
