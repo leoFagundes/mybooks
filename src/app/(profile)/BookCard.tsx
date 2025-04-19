@@ -352,7 +352,11 @@ export const BookCard = ({
               <>
                 <div className="flex flex-col items-center gap-1 flex-1">
                   <p className="font-semibold">Deseja copiar o livro:</p>
-                  <span className="italic text-center">"{book.title}"</span>
+                  <span className="italic text-center">
+                    {'"'}
+                    {book.title}
+                    {'"'}
+                  </span>
                   <p className="font-semibold">para sua coleção?</p>
                 </div>
                 <Button onClick={() => copyBookToMyCollection()} onlyStroke>
@@ -381,7 +385,11 @@ export const BookCard = ({
               <>
                 <div className="flex flex-col items-center gap-1 flex-1">
                   <p className="font-semibold">Deseja excluir o livro:</p>
-                  <span className="italic text-center">"{book.title}"</span>
+                  <span className="italic text-center">
+                    {'"'}
+                    {book.title}
+                    {'"'}
+                  </span>
                   <p className="font-semibold">da sua coleção?</p>
                 </div>
                 <Button onClick={() => handleDeleteBook()} onlyStroke>
